@@ -1,4 +1,7 @@
 import app from './app';
-import database from './database';
+import './database';
 
-app.listen(9000);
+
+
+app.listen(5000)
+console.log ('Server listen', 5000)

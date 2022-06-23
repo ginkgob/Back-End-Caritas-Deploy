@@ -1,22 +1,22 @@
 ###
 
-POST http://localhost:9000/api/users HTTP/1.1
+POST http://localhost:5000/users HTTP/1.1
 Content-Type: application/json
 
 {
- "name": "Celia",
- "age": "25",
- "email": "holahola@email.com"
+    "name": "Celia",
+    "age": 23,
+    "email": "holahola@email.com"
 }
 
 ###
-GET http://localhost:9000/api/users HTTP/1.1
+GET http://localhost:5000/users HTTP/1.1
 
 ###
-GET http://localhost:9000/api/users/62b0767c7fc4933f7b847657 HTTP/1.1
+GET http://localhost:5000/users/62b0767c7fc4933f7b847657 HTTP/1.1
 
 ###
-PUT  http://localhost:9000/api/users/62b0767c7fc4933f7b847657 HTTP/1.1
+PUT  http://localhost:5000/users/62b0767c7fc4933f7b847657 HTTP/1.1
 Content-Type: application/json
 
 {
@@ -26,5 +26,5 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:9000/api/users/ HTTP/1.1 
+DELETE http://localhost:5000/users/62b076b07fc4933f7b847659 HTTP/1.1 
 //poner id despues de users
