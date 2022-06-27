@@ -1,4 +1,7 @@
-import User from '../models/User';
+import User from '../models/user';
+import express from 'express';
+
+const userController = express();
 
 export const createUser = async (req, res) => {
     const { name, age, email  } = req.body;
@@ -29,4 +32,3 @@ export const deleteUser = async (req, res) => {
     await User.findByIdAndRemove(req.params.id);
     res.json({ message: 'User deleted successfully' });
 }
-
