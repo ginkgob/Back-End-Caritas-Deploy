@@ -30,13 +30,9 @@ const createUser = {
 
 beforeEach(async () => {
   await User.deleteMany({});
-
-  const user = new User(initialUsers[0]);
-  await user.save();
-  const user2 = new User(initialUsers[1]);
-  await user2.save();
-  const user3 = new User(initialUsers[2]);
-  await user3.save();
+  
+  const promises = initialUsers.map(user => new User(user).save());
+  await Promise.all(promises);
 });
 
 describe('users CRUD', () => {
@@ -56,7 +52,7 @@ describe('users CRUD', () => {
       const userId = user._id;
 
       const userGet = await api.get(`/users/${userId}`);
-      expect(userGet.body.name).toBe('user1');
+      expect(userGet.body.name).toBe(user.name);
     }); 
   });
 
