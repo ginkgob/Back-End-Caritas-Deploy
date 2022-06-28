@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/Caritas-Habits/Back-End#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",

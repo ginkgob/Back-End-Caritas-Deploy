@@ -1,13 +1,12 @@
-import mongoose from "mongoose";
-const Schema = mongoose.Schema;
-const model = mongoose.model;
+import {Schema, model} from "mongoose";
+import bcrypt from "bcryptjs";
 
 
-const userSchema = Schema ({
-
+const userSchema = new Schema (
+    {
     name: {
         type: String,
-        required: true,
+        unique: true,
     },
     age: {
         type: Number,
@@ -15,15 +14,34 @@ const userSchema = Schema ({
     },
     email: {
         type: String,
+        unique: true,
+    },
+    password: {
+        type: String,
         required: true,
     },
-    roles:[{
+    roles: [
+    {
+        type: Schema.Types.ObjectId,
         ref: "Role",
-        type: Schema.Types.ObjectId
-    }], 
-}, {
+    },
+    ],
+    },
+    {
         timestamps: true,
         versionKey: false,
-});
+    }
+);
 
-export default userSchema;
+userSchema.statics.encryptPassword = async (password) => {
+    const salt = await bcrypt.genSalt(10);
+    return await bcrypt.hash(password, salt);
+
+
+};
+
+userSchema.statics.comparePassword = async (password, receivedPassword) => {
+    return await bcrypt.compare(password, receivedPassword)
+}
+
+export default model("User", userSchema);

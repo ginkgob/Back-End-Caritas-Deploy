@@ -4,8 +4,8 @@ import express from 'express';
 const userController = express();
 
 export const createUser = async (req, res) => {
-    const { name, age, email  } = req.body;
-    const newUser = new User({ name, age, email });
+    const { name, age, email, password } = req.body;
+    const newUser = new User({ name, age, email, password });
     await newUser.save();
     res.json({ message: 'User created successfully' });
 }
