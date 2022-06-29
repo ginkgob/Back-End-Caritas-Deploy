@@ -7,6 +7,7 @@ router.post('/', sectionsController.createSection);
 router.get('/', sectionsController.getSections);
 router.get('/:id', sectionsController.getSectionById);
 router.put('/:id', sectionsController.updateSectionById);
+router.delete('/:id', sectionsController.deleteSection);
 
 
 
