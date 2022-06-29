@@ -17,13 +17,13 @@ export const createSection = async (req, res) => {
 
 export const getSections = async (req, res) => {
     const sections = await Section.find();
-    res.status(200).json(products);
+    res.status(200).json(sections);
 }
 
 
 export const getSectionById = async(req,res) => {
     const section = await Section.findById(req.params.id);
-    res.status(200).json(section);
+    res.json(section);
 }
 
 
@@ -35,6 +35,6 @@ export const updateSectionById = async(req,res) => {
         description,
     }, { new: true });
     res.status(200).json(section);
-    
+
 }
 
