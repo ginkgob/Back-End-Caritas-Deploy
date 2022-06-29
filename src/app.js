@@ -20,8 +20,8 @@ app.get('/', (req, res) => {
   });
 });
 
-app.use('/sections',sectionRouter);
 app.use('/users', userRouter);
+app.use('/sections', sectionRouter);
 
 
 export default app;
