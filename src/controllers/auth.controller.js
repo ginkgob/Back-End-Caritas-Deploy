@@ -17,7 +17,7 @@ export const signUp = async (req, res)=> {
   
     if (roles) {
         const foundRoles = await Role.find({name: {$in:roles}})
-        newUser.roles = foundRoles.map(role => role.id)
+        newUser.roles = foundRoles.map(role => role._id)
     } else {
         const role = await Role.findOne({name: "guest"})
         newUser.roles = [role._id];
@@ -31,7 +31,7 @@ export const signUp = async (req, res)=> {
         expiresIn: 86400 //24 horas
     });
 
-    res.status(200).json({token});
+    //res.status(200).json({token});
 }
 
 

@@ -4,28 +4,28 @@ import bcrypt from "bcryptjs";
 
 const userSchema = new Schema (
     {
-    name: {
-        type: String,
-        unique: true,
-    },
-    age: {
-        type: Number,
-        required: true,
-    },
-    email: {
-        type: String,
-        unique: true,
-    },
-    password: {
-        type: String,
-        required: true,
-    },
-    roles: [
-    {
-        type: Schema.Types.ObjectId,
-        ref: "Role",
-    },
-    ],
+        name: {
+            type: String,
+            unique: true,
+        },
+        age: {
+            type: Number,
+            required: true,
+        },
+        email: {
+            type: String,
+            unique: true,
+        },
+        password: {
+            type: String,
+            required: true,
+        },
+        roles: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Role",
+            },
+        ],
     },
     {
         timestamps: true,
