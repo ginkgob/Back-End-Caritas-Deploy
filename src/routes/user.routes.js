@@ -1,7 +1,12 @@
 import { Router } from 'express';
 const router = Router();
 import * as usersController from '../controllers/users.controller';
-import {authJwt} from '../middlewares/indexMiddleware'
+import {authJwt} from './'
+
+// router.post('/', [
+//     authJwt.verifyToken,
+//     authJwt.isAdmin
+// ], usersController.createUser);
 
 
 router.get('/', [authJwt.verifyToken, authJwt.isAdmin], usersController.getUsers);
