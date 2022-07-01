@@ -1,5 +1,6 @@
 import {Schema, model} from 'mongoose';
 
+export const ROLES = ["guest", "user", "admin"]
 
 const roleSchema = new Schema(
     {

@@ -1,12 +1,13 @@
 import { Router } from 'express';
 const router = Router();
 import * as usersController from '../controllers/users.controller';
-import {authJwt} from './'
+import {authJwt, validateSignup} from '../middlewares/indexMiddleware'
 
-// router.post('/', [
-//     authJwt.verifyToken,
-//     authJwt.isAdmin
-// ], usersController.createUser);
+router.post('/', [
+    authJwt.verifyToken,
+    authJwt.isAdmin,
+    validateSignup.checkExistentRoles
+], usersController.createUser);
 
 
 router.get('/', [authJwt.verifyToken, authJwt.isAdmin], usersController.getUsers);

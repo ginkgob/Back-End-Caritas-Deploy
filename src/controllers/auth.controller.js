@@ -53,6 +53,6 @@ export const signIn = async (req, res) => {
     res.json({token})
 }
 
-// export const createUser = (req, res) => {
-//     res.json('creating user')
-// }
+export const createUser = (req, res) => {
+    res.json('creating user')
+}

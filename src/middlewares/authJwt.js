@@ -31,27 +31,25 @@ export const isUser =async(req, res, next) => {
     for (let i=0; i<roles.length; i++) {
         if (roles[i].name === 'user') {
             next()
+            return;
         }
-        return;
     }
 
     return res.status(403).json({message: "Require User role"})
     
 }
 
-// export const isAdmin =async(req, res, next) => {
-//     // const user = await User.findById(req.userId)
-//     // const roles = await Role.find( {_id: {$in: user.roles} } )
-//     // console.log(roles);
+export const isAdmin =async(req, res, next) => {
+    const user = await User.findById(req.userId)
+    const roles = await Role.find( {_id: {$in: user.roles} } )
+    console.log(roles);
     
-//     // for (let i=0; i< roles.length; i++) {
-//     //     if (roles[i].name === 'admin') {
-//     //         next()
-//     //         return;
-//     //     }
-//     // }
+    for (let i=0; i< roles.length; i++) {
+        if (roles[i].name === 'admin') {
+            next()
+            return;
+        }
+    }
 
-//     // return res.status(403).json({message: "Require Admin role"})
-
-
-// }
+    return res.status(403).json({message: "Require Admin role"})
+}
