@@ -30,9 +30,12 @@ const createUser = {
 
 beforeEach(async () => {
   await User.deleteMany({});
-  
-  const promises = initialUsers.map(user => new User(user).save());
-  await Promise.all(promises);
+  console.log("> Users deleted in test");
+    
+  for (let user of initialUsers) {
+    const newUser = new User(user);
+    await newUser.save();
+  }
 });
 
 describe('users CRUD', () => {
@@ -43,7 +46,7 @@ describe('users CRUD', () => {
         .expect(200)
         .expect('Content-Type', /application\/json/);
 
-      expect(response.body.length).toBe(initialUsers.length);
+      expect(response.body).toHaveLength(initialUsers.length);
     });
 
     test('should return a user', async () => {

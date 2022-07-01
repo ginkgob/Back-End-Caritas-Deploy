@@ -2,9 +2,11 @@ import express from 'express';
 import morgan from 'morgan';
 import packageJson from '../package.json';
 import userRouter from './routes/user.routes';
+import { createUsers } from './libs/initialSetup';
 
 
 const app = express();
+createUsers();
 app.set('pkg', packageJson);
 app.use(morgan('dev'));
 app.use(express.json());
