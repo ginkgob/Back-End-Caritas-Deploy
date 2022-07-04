@@ -32,7 +32,7 @@ export const signUp = async (req, res)=> {
         expiresIn: 86400 //24 horas
     });
 
-    //res.status(200).json({token});
+    res.status(200).json({token});
 }
 
 
