@@ -4,8 +4,8 @@ import express from 'express';
 const userController = express();
 
 export const createUser = async (req, res) => {
-    const { name, age, email, password } = req.body;
-    const newUser = new User({ name, age, email, password });
+    const { name, surname, age, sex, nationality, email, password } = req.body;
+    const newUser = new User({ name, surname, age, sex, nationality, email, password });
     await newUser.save();
     res.json({ message: 'User created successfully' });
 }
@@ -23,8 +23,8 @@ export const getUser = async (req, res) => {
 }
 
 export const updateUser = async (req, res) => {
-    const { name, age, email } = req.body;
-    await User.findByIdAndUpdate(req.params.id, { name, age, email });
+    const { name, surname, age, sex, nationality, email, password } = req.body;
+    await User.findByIdAndUpdate(req.params.id, { name, surname, age, sex, nationality, email, password });
     res.json({ message: 'User updated successfully' });
 }
 

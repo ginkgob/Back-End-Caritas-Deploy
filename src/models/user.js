@@ -8,8 +8,20 @@ const userSchema = new Schema (
             type: String,
             unique: true,
         },
+        surname: {
+            type: String,
+            unique: true,
+        },
         age: {
             type: Number,
+            required: true,
+        },
+        sex: {
+            type: String,
+            required: true,
+        },
+        nationality: {
+            type: String,
             required: true,
         },
         email: {

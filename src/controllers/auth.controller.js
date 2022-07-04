@@ -5,13 +5,16 @@ import Role from '../models/Role'
 // import { createUser } from './users.controller'
 
 export const signUp = async (req, res)=> {
-    const { name, age, email, password, roles } = req.body;
+    const { name, surname, age, sex, nationality, email, password, roles } = req.body;
 
     //const userFound = User.find({email});
 
     const newUser = new User({
         name,
+        surname,
         age,
+        sex,
+        nationality,
         email,
         password: await User.encryptPassword(password)
     })

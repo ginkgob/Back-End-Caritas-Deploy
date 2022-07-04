@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 export default {
-    SECRET: 'users-api'
+    SECRET: process.env.SECRET_ID_TOKEN
 }
