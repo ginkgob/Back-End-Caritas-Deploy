@@ -1,6 +1,24 @@
+import Role from '../models/Role';
 import User from '../models/User';
 import dotenv from "dotenv";
 dotenv.config();
+
+export const createRoles = async () => {
+  try {
+    const count = await Role.estimatedDocumentCount();
+
+    if(count > 0) return;
+
+    await Promise.all([
+      new Role({name: 'admin'}).save(),
+      new Role({name: 'user'}).save(),
+      new Role({name: 'guest'}).save(),
+    ])
+
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 export const createUsers = async () => {
   try {
@@ -20,16 +38,23 @@ export const createUsers = async () => {
     const users = [
       {
         name: 'seeder user 1',
+        surname: 'Surname',
         age: 20,
-        email: 'seeder.user1@gmail'
+        email: 'seeder.user1@gmail',
+        password: 'password',
       }, {
         name: 'seeder user 2',
         age: 19,
-        email: 'seeder.user2@gmail'
+        sex: 'M',
+        email: 'seeder.user2@gmail',
+        password: 'password',
       }, {
         name: 'seeder user 3',
         age: 27,
-        email: 'seeder.user3@gmail'
+        sex: 'F',
+        nationality: 'Colombia',
+        email: 'seeder.user3@gmail',
+        password: 'password',
       }
     ];
     
