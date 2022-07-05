@@ -4,11 +4,13 @@ dotenv.config();
 
 export const createUsers = async () => {
   try {
-    const count = await User.estimatedDocumentCount();
+    let count = await User.estimatedDocumentCount();
     
-    if (process.env.NODE_ENV == 'test' || process.env.NODE_ENV == 'development') {
+    if (process.env.NODE_ENV == 'test'/*  || process.env.NODE_ENV == 'development' */) {
       await User.deleteMany({});
       console.log('Users deleted in initialSetup');
+      count = await User.estimatedDocumentCount();
+      return count;
     };
     if (count > 0) {
       console.log('Users already exists');
