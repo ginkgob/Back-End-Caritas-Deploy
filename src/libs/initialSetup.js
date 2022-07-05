@@ -30,10 +30,7 @@ export const createUsers = async () => {
       count = await User.estimatedDocumentCount();
       return count;
     };
-    if (count > 0) {
-      console.log('Users already exists');
-      return;
-    }
+    if (count > 0) return;
     
     const users = [
       {
