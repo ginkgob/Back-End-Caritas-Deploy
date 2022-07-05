@@ -41,6 +41,6 @@ export const updateSectionById = async(req,res) => {
 
 export const deleteSection = async (req, res) => {
     await Section.findByIdAndRemove(req.params.id);
-    res.json({ message: 'Section deleted successfully' });
+    res.json({ message: 'La sección se ha eliminado correctamente' });
 }
 

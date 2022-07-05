@@ -7,7 +7,7 @@ export const createUser = async (req, res) => {
     const { name, surname, age, sex, nationality, email, password } = req.body;
     const newUser = new User({ name, surname, age, sex, nationality, email, password });
     await newUser.save();
-    res.json({ message: 'User created successfully' });
+    res.json({ message: 'Usuario creado correctamente!' });
 }
 
 
@@ -25,10 +25,10 @@ export const getUser = async (req, res) => {
 export const updateUser = async (req, res) => {
     const { name, surname, age, sex, nationality, email, password } = req.body;
     await User.findByIdAndUpdate(req.params.id, { name, surname, age, sex, nationality, email, password });
-    res.json({ message: 'User updated successfully' });
+    res.json({ message: 'El usuario ha sido actualizado' });
 }
 
 export const deleteUser = async (req, res) => {
     await User.findByIdAndRemove(req.params.id);
-    res.json({ message: 'User deleted successfully' });
+    res.json({ message: 'El usuario se ha eliminado correctamente' });
 }

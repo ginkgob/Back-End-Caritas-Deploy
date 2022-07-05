@@ -3,23 +3,25 @@ import config from "../config";
 import User from "../models/user";
 import Role from '../models/Role'
 
+const unauthorized = "No dispones de la autorización adecuada";
+
 export const verifyToken = async (req, res, next) => {
     try {
         const token = req.headers["x-access-token"];
 
-        if(!token) return res.status(403).json({message: "No token provided"})
+        if(!token) return res.status(403).json({message: "Usuario no encontrado"})
     
         const decoded = jwt.verify(token, config.SECRET)
         req.userId = decoded.id
         
         const user = await User.findById(req.userId, {password: 0})
         
-        if (!user) return res.status(404).json({message: "User not found!"})
+        if (!user) return res.status(404).json({message: "Usuario no encontrado"})
     
         next()
     } catch (error) {
         console.error(error)
-        return res.status(401).json({message: "Unauthorized"})
+        return res.status(401).json({message: unauthorized})
     }
 };
 
@@ -35,7 +37,7 @@ export const isUser =async(req, res, next) => {
         }
     }
 
-    return res.status(403).json({message: "Require User role"})
+    return res.status(403).json({message: unauthorized})
     
 }
 
@@ -51,5 +53,5 @@ export const isAdmin =async(req, res, next) => {
         }
     }
 
-    return res.status(403).json({message: "Require Admin role"})
+    return res.status(403).json({message: unauthorized})
 }
