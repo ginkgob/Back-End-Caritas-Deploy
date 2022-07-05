@@ -38,6 +38,11 @@ beforeEach(async () => {
   }
 });
 
+afterAll(() => {
+  mongoose.connection.close();
+  server.close();
+});
+
 describe('users CRUD', () => {
   describe('GET /users', () => {
     test('should return all users', async () => {
@@ -114,8 +119,8 @@ describe('users CRUD', () => {
     });
   });
 
-  afterAll(() => {
-    mongoose.connection.close();
-    server.close();
-  });
+  // afterAll(() => {
+  //   mongoose.connection.close();
+  //   server.close();
+  // });
 })
