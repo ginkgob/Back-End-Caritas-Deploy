@@ -3,7 +3,7 @@ import './database';
 
 
 
-const server = app.listen(5000)
-console.log ('Server listen', 5000)
+const server = app.listen(5050)
+console.log ('Server listen', 5050)
 
 export default server;
