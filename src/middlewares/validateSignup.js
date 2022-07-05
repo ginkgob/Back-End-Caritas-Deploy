@@ -1,4 +1,4 @@
-//import {ROLES} from '../models/Role'
+import {ROLES} from '../models/Role'
 import User from '../models/user'
 
 export const checkDuplicateUser = async (req, res, next) => {
@@ -12,13 +12,13 @@ export const checkDuplicateUser = async (req, res, next) => {
 
 }
 
-// export const checkExistentRoles = (req, res, next) => {
-//     if(req.body.role) {
-//         for (let i=0; i<req.body.role.length; i++) {
-//             if(!ROLES.includes(req.body.roles[i])) {
-//                 return res.status(400).json({messages: `Role ${req.body.roles[i]} does not exist`})
-//             }
-//         }    
-//     }
-//     next(); 
-// }
+export const checkExistentRoles = (req, res, next) => {
+    if(req.body.role) {
+        for (let i=0; i<req.body.role.length; i++) {
+            if(!ROLES.includes(req.body.roles[i])) {
+                return res.status(400).json({messages: `Role ${req.body.roles[i]} does not exist`})
+            }
+        }    
+    }
+    next(); 
+}
