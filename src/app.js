@@ -9,6 +9,7 @@ import { createUsers } from './libs/initialSetup';
 import sectionRouter from './routes/section.routes';
 import authRouter from './routes/auth.routes'
 
+var cors = require('cors')
 
 const app = express();
 createUsers();
@@ -17,6 +18,7 @@ createRoles();
 app.set('pkg', packageJson);
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(cors());
 
 
 app.get('/', (req, res) => {
