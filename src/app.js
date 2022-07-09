@@ -7,7 +7,7 @@ import { createRoles } from './libs/initialSetup';
 import userRouter from './routes/user.routes';
 import { createUsers } from './libs/initialSetup';
 import sectionRouter from './routes/section.routes';
-import authRouter from './routes/auth.routes'
+import authRouter from './routes/auth.routes';
 
 var cors = require('cors')
 
@@ -18,7 +18,10 @@ createRoles();
 app.set('pkg', packageJson);
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(cors());
+
+//Allowed URL to consume API
+const whiteList = ['http://localhost:3000', 'http://localhost:5050', 'http://localhost:3000/admin-register'];
+app.use(cors({origin: whiteList}));
 
 
 app.get('/', (req, res) => {
