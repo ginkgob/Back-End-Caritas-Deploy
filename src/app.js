@@ -20,7 +20,7 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 //Allowed URL to consume API
-const whiteList = ['http://localhost:3000', 'http://localhost:5050', 'http://localhost:3000/admin-register'];
+const whiteList = ['http://localhost:3000', 'http://localhost:5050', 'http://localhost:3000/admin-register', 'http://localhost:3000/login' ];
 app.use(cors({origin: whiteList}));
 
 
