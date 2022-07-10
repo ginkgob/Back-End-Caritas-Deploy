@@ -1,25 +1,11 @@
 import {ROLES} from '../models/Role'
-
-// ----------------------> Peta la funcion al consumir la API de registro
-
 import User from '../models/User'
-
-// export const checkDuplicateUser = async (req, res, next) => {
-//     const user = await User.findOne({name: req.body.name})
-//     if (user) return res.status(400).json({message: "Esta cuenta ya esta registrada"})
-
-//     const email = await User.findOne({email: req.body.email})
-//     if (email) return res.status(400).json({message: "Este email ya esta registrado"})
-
-//     next()
-
-// }
 
 export const checkDuplicateUser = async (req, res, next) => {
     try {
         const email = await User.findOne({ email: req.body.email });
         if (email)
-            return res.status(400).json({ message: "The email already exists" });
+            return res.status(400).json({ message: "Esta cuenta ya esta registrada" });
         next();
     } catch (error) {
         res.status(500).json({ message: error });
