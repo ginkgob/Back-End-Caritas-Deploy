@@ -45,7 +45,7 @@ export const signIn = async (req, res) => {
         // Request body email can be an email or username
         const userFound = await User.findOne({ email: req.body.email }).populate("roles");
 
-        if (!userFound) return res.status(400).json({ message: "El usuario no es correcto" });
+        if (!userFound) return res.status(401).json({ message: "El usuario o la contraseña no son correctas" });
 
         const matchPassword = await User.comparePassword(
             req.body.password,
@@ -53,9 +53,7 @@ export const signIn = async (req, res) => {
         );
 
         if (!matchPassword)
-            return res.status(401).json({
-            message: "La contraseña no es correcta",
-            });
+            return res.status(401).json({message: "El usuario o la contraseña no son correctas"});
 
         const token = jwt.sign({ id: userFound._id }, config.SECRET, {
             expiresIn: 86400, // 24 hours
