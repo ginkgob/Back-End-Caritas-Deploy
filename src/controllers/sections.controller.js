@@ -1,12 +1,13 @@
 import Section from '../models/Section';
 
 export const createSection = async (req, res) => {
-    const { name, text, description } = req.body;
+    const { name, text, description, category } = req.body;
 
     const newSection = new Section({
         name,
         text,
-        description
+        description,
+        category
     });
 
     const sectionSaved = await newSection.save();
