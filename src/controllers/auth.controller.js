@@ -41,24 +41,26 @@ export const signUp = async (req, res)=> {
 
 export const signIn = async (req, res) => {
 
-    const signInError = "El usuario o la contraseña no son correctas";
-    const resError = res.status(401).json({message: signInError});
-    
-    const userFound = await User.findOne({email: req.body.email}).populate("roles");
+    try {
+        // Request body email can be an email or username
+        const userFound = await User.findOne({ email: req.body.email }).populate("roles");
 
-    if(!userFound) return resError;
+        if (!userFound) return res.status(401).json({ message: "El usuario o la contraseña no son correctas" });
 
-    const matchPassword = await User.comparePassword(req.body.password, userFound.password) 
+        const matchPassword = await User.comparePassword(
+            req.body.password,
+            userFound.password
+        );
 
-    if(!matchPassword) return resError;
+        if (!matchPassword)
+            return res.status(401).json({message: "El usuario o la contraseña no son correctas"});
 
-    //console.log(userFound)
+        const token = jwt.sign({ id: userFound._id }, config.SECRET, {
+            expiresIn: 86400, // 24 hours
+        });
 
-    const token = jwt.sign({id: userFound._id}, config.SECRET, {expiresIn:8640})
-    
-    res.json({token})
-}
-
-export const createUser = (req, res) => {
-    res.json('creating user')
-}
+        res.json({ token });
+    } catch (error) {
+        console.log(error);
+    }
+};
