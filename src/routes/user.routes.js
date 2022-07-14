@@ -1,6 +1,7 @@
 import { Router } from 'express';
 const router = Router();
 import * as usersController from '../controllers/users.controller';
+import { isUser } from '../middlewares/authJwt';
 import {authJwt, validateSignup} from '../middlewares/indexMiddleware'
 
 router.post('/', [
@@ -13,7 +14,7 @@ router.post('/', [
 router.get('/', [authJwt.verifyToken, authJwt.isAdmin], usersController.getUsers);
 router.get('/:id', [authJwt.verifyToken, authJwt.isAdmin], usersController.getUser);
 router.post('/', [authJwt.verifyToken, authJwt.isAdmin], usersController.createUser);
-router.put('/:id', [authJwt.verifyToken, authJwt.isAdmin], usersController.updateUser);
+router.put('/:id', [authJwt.verifyToken, (authJwt.isAdmin || authJwt.isUser)], usersController.updateUser);
 router.delete('/:id', [authJwt.verifyToken, authJwt.isAdmin], usersController.deleteUser);
 
 

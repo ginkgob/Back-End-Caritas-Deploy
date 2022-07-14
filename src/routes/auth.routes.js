@@ -2,12 +2,9 @@ import { Router } from 'express';
 const router = Router();
 
 import * as authCtrl from '../controllers/auth.controller';
-import {validateSignup} from '../middlewares/indexMiddleware';
+import {authJwt, validateSignup} from '../middlewares/indexMiddleware';
 
-router.post('/signup', validateSignup.checkDuplicateUser,validateSignup.checkExistentRoles, authCtrl.signUp)
-
+router.post('/signup', [authJwt.verifyToken, authJwt.isAdmin], validateSignup.checkDuplicateUser, validateSignup.checkExistentRoles, authCtrl.signUp)
 router.post('/signin', authCtrl.signIn)
-
-// validateSignup.checkDuplicateUser,   ===> No funciona correctamente al consumir API de registro 
 
 export default router;

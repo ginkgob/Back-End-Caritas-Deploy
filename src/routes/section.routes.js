@@ -2,16 +2,13 @@ import { Router } from 'express'
 const router = Router()
 
 import * as sectionsController from '../controllers/sections.controller';
+import { authJwt } from '../middlewares/indexMiddleware';
 
-router.post('/', sectionsController.createSection);
+router.post('/', [authJwt.verifyToken, authJwt.isAdmin], sectionsController.createSection);
 router.get('/', sectionsController.getSections);
-router.get('/:id', sectionsController.getSectionById);
-router.put('/:id', sectionsController.updateSectionById);
-router.delete('/:id', sectionsController.deleteSection);
-
-
-
-// router.get('/', (req, res) => res.json('getting sections'))
+router.get('/:id', [authJwt.verifyToken, authJwt.isUser], sectionsController.getSectionById);
+router.put('/:id', [authJwt.verifyToken, authJwt.isAdmin], sectionsController.updateSectionById);
+router.delete('/:id', [authJwt.verifyToken, authJwt.isAdmin], sectionsController.deleteSection);
 
 export default router;
 
