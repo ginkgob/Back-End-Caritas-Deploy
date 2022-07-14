@@ -9,7 +9,6 @@ router.post('/', [
     validateSignup.checkExistentRoles
 ], usersController.createUser);
 
-
 router.get('/', [authJwt.verifyToken, authJwt.isAdmin], usersController.getUsers);
 router.get('/:id', [authJwt.verifyToken, authJwt.isAdmin], usersController.getUser);
 router.post('/', [authJwt.verifyToken, authJwt.isAdmin], usersController.createUser);

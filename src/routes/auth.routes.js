@@ -8,6 +8,4 @@ router.post('/signup', validateSignup.checkDuplicateUser,validateSignup.checkExi
 
 router.post('/signin', authCtrl.signIn)
 
-// validateSignup.checkDuplicateUser,   ===> No funciona correctamente al consumir API de registro 
-
 export default router;

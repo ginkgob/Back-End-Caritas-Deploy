@@ -9,9 +9,5 @@ router.get('/:id', sectionsController.getSectionById);
 router.put('/:id', sectionsController.updateSectionById);
 router.delete('/:id', sectionsController.deleteSection);
 
-
-
-// router.get('/', (req, res) => res.json('getting sections'))
-
 export default router;
 

@@ -10,7 +10,6 @@ export const createUser = async (req, res) => {
     res.json({ message: 'Usuario creado correctamente!' });
 }
 
-
 export const getUsers = async (req, res) => {
     const users = await User.find();
     res.json(users);

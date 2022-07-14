@@ -16,9 +16,9 @@ const sectionSchema = new Schema({
         required: true,
     },
     category: {
-      type: String,
-      enum: CATEGORIES,
-      required: true,
+        type: String,
+        enum: CATEGORIES,
+        required: true,
     },
 });
 export default model('Section', sectionSchema);
