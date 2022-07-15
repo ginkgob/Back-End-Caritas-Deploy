@@ -1,4 +1,3 @@
-﻿# Back-End
 # Habit+
 
 Aplicación web para mejorar los hábitos de los usuarios de Cáritas
