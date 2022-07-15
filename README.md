@@ -2,7 +2,7 @@
 
 Aplicación web para mejorar los hábitos de los usuarios de Cáritas
 
-#### Sobre el proyecto
+### Sobre el proyecto
 
 ------------
 Habit+ nace de la necesidad de dar a conocer y enriquecer hábitos saludables dentro de la comunidad de Cáritas. 
