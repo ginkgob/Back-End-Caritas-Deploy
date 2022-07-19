@@ -10,8 +10,7 @@ export const createSection = async (req, res) => {
     });
 
     const sectionSaved = await newSection.save();
-    res.json(sectionSaved);
-    return res.status(201).json(sectionSaved);
+    res.status(201).json(sectionSaved);
 }
 
 export const getSections = async (req, res) => {
