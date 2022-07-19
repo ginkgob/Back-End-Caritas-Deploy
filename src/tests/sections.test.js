@@ -8,17 +8,14 @@ const api = supertest(app);
 
 const initialSections = [
   {
-    name: "section1",
-    text: "sleeping is important",
-    description: "remember to sleep at least 8h every day"
+    title: "section1",
+    text: ["p", "sleeping is important"],
   }, {
-    name: "section2",
-    text: "eating is important",
-    description: "remember to eat at least 5 times epr day"
+    title: "section2",
+    text: ["p", "eating is important"],
   }, {
-    name: "section3",
-    text: "doing excercice is important",
-    description: "remember to to excercise"
+    title: "section3",
+    text: ["p", "doing excercice is important"],
   }
 ];
 

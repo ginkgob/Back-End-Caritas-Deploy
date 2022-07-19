@@ -1,18 +1,17 @@
 import Section from '../models/Section';
 
 export const createSection = async (req, res) => {
-    const { name, text, description, category } = req.body;
+    const { title, text, category } = req.body;
 
     const newSection = new Section({
-        name,
+        title,
         text,
-        description,
         category
     });
 
     const sectionSaved = await newSection.save();
     res.json(sectionSaved);
-    res.status(201).json(sectionSaved);
+    return res.status(201).json(sectionSaved);
 }
 
 export const getSections = async (req, res) => {
@@ -26,11 +25,10 @@ export const getSectionById = async(req,res) => {
 }
 
 export const updateSectionById = async(req,res) => {
-    const { name, text, description } = req.body;
+    const { title, text } = req.body;
     const section = await Section.findByIdAndUpdate(req.params.id, {
-        name,
+        title,
         text,
-        description,
     }, { new: true });
     res.status(200).json(section);
 }

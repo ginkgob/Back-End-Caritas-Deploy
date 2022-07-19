@@ -3,16 +3,12 @@ import {Schema, model} from 'mongoose'
 export const CATEGORIES = ["sueño", "nutrición", "salud mental", "ejercicio físico"]
 
 const sectionSchema = new Schema({
-    name: {
+    title: {
         type: String,
         required: true,
     },
     text: {
-        type: String,
-        required: true,
-    },
-    description: {
-        type: String,
+        type: Array,
         required: true,
     },
     category: {
