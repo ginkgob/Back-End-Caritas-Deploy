@@ -54,12 +54,15 @@ export const signIn = async (req, res) => {
 
         if (!matchPassword)
             return res.status(401).json({message: "El usuario o la contraseña no son correctas"});
+        
+        const idUser = userFound._id;
+        const roles = userFound.roles.map(role => role.name);
 
         const token = jwt.sign({ id: userFound._id }, config.SECRET, {
             expiresIn: 86400, // 24 hours
         });
 
-        res.json({ token });
+        res.json({ idUser, roles, token });
     } catch (error) {
         console.log(error);
     }
