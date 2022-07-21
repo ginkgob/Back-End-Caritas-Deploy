@@ -57,11 +57,12 @@ export const signIn = async (req, res) => {
         
         const idUser = userFound._id;
         const roles = userFound.roles.map(role => role.name);
-
+        
         const token = jwt.sign({ id: userFound._id }, config.SECRET, {
             expiresIn: 86400, // 24 hours
         });
 
+        res.cookie('jwt', token, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 });
         res.json({ idUser, roles, token });
     } catch (error) {
         console.log(error);
