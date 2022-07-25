@@ -21,9 +21,15 @@ export const getUser = async (req, res) => {
     res.json(user);
 }
 
+export const getUserRoles = async (req, res) => {
+    const user = await User.findById(req.params.id).populate("roles");
+    // return object with roles
+    res.json({ roles: user.roles });
+}
+
 export const updateUser = async (req, res) => {
-    const { name, surname, age, sex, nationality, email, password } = req.body;
-    await User.findByIdAndUpdate(req.params.id, { name, surname, age, sex, nationality, email, password });
+    const { name, surname, age, address, city, province, zip, phone, sex, nationality, email, password } = req.body;
+    await User.findByIdAndUpdate(req.params.id, { name, surname, age, address, city, province, zip, phone, sex, nationality, email, password });
     res.json({ message: 'El usuario ha sido actualizado' });
 }
 

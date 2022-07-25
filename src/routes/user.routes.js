@@ -10,10 +10,11 @@ router.post('/', [
 ], usersController.createUser);
 
 router.get('/', [authJwt.verifyToken, authJwt.isAdmin], usersController.getUsers);
-router.get('/:id', [authJwt.verifyToken, authJwt.isAdmin], usersController.getUser);
+router.get('/:id', [authJwt.verifyToken, /* (authJwt.isAdmin || ) */], usersController.getUser);
 router.post('/', [authJwt.verifyToken, authJwt.isAdmin], usersController.createUser);
-router.put('/:id', [authJwt.verifyToken, authJwt.isAdmin], usersController.updateUser);
+router.put('/:id', [authJwt.verifyToken], usersController.updateUser);
 router.delete('/:id', [authJwt.verifyToken, authJwt.isAdmin], usersController.deleteUser);
+router.get('/:id/roles', usersController.getUserRoles);
 
 
 

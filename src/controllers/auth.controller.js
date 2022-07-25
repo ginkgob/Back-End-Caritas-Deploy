@@ -63,8 +63,18 @@ export const signIn = async (req, res) => {
         });
 
         res.cookie('jwt', token, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 });
+        res.cookie('idUser', idUser, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 });
+        res.cookie('roles', roles, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 });
+
         res.json({ idUser, roles, token });
     } catch (error) {
         console.log(error);
     }
 };
+
+export const signOut = async (req, res) => {
+    res.clearCookie('jwt');
+    res.clearCookie('idUser');
+    res.clearCookie('roles');
+    res.json({ message: "Sesión cerrada" });
+}

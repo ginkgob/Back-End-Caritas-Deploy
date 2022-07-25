@@ -7,5 +7,6 @@ import {validateSignup} from '../middlewares/indexMiddleware';
 router.post('/signup', validateSignup.checkDuplicateUser,validateSignup.checkExistentRoles, authCtrl.signUp)
 
 router.post('/signin', authCtrl.signIn)
+router.post('/signout', authCtrl.signOut)
 
 export default router;
