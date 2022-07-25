@@ -31,6 +31,13 @@ export const createUsers = async () => {
       return count;
     };
     if (count > 0) return;
+
+    const admin = new User({
+      name: 'Admin',
+      email: 'admin@admin.com',
+      password: 'password',
+      roles: [await Role.findOne({name: 'admin'})._id]
+    });
     
     const users = [
       {
@@ -54,6 +61,8 @@ export const createUsers = async () => {
         password: 'password',
       }
     ];
+
+    await newUser(admin).save();
     
     for (let user of users) {
       const newUser = new User(user);

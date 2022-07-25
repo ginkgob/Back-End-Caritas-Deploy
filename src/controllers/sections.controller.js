@@ -20,7 +20,7 @@ export const getSections = async (req, res) => {
 
 export const getSectionById = async(req,res) => {
     const section = await Section.findById(req.params.id);
-    res.json(section);
+    res.status(200).json(section);
 }
 
 export const updateSectionById = async(req,res) => {

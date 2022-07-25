@@ -1,13 +1,14 @@
 import mongoose from 'mongoose';
 import dotenv from "dotenv";
 dotenv.config();
-// import { MONGODB_URI_TEST, MONGODB_URI_PROD, NODE_ENV } from 'process.env';
+// import { MONGODB_URI_TEST, MONGODB_URI_TESTING, NODE_ENV } from 'process.env';
 
-// const conectionString = NODE_ENV === 'test' 
-//   ? MONGODB_URI_TEST 
-//   : MONGODB_URI_PROD;
+const conectionString = process.env.NODE_ENV === 'test' 
+  ? process.env.MONGODB_URI_TESTING 
+  : process.env.MONGODB_URI_TEST;
 
-mongoose.connect(process.env.MONGODB_URI_TEST, {
+// mongoose.connect(process.env.MONGODB_URI_TEST, {
+mongoose.connect(conectionString, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   // useFindAndModify: true,
