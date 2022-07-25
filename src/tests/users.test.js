@@ -3,106 +3,106 @@ import supertest from "supertest";
 import app from "../app";
 import server from "../index";
 import User from "../models/User";
+import Role from "../models/Role";
 
 const api = supertest(app);
 
 const initialUsers = [
   {
-    name: "admin",
-    age: 27,
-    email: "test.user3@gmail.com",
-    password: "password",
-    roles: ["62bb170b39e57ad31699f4ed"]
-  }, {
-    name: "user",
-    age: 19,
     email: "test.user2@gmail.com",
     password: "password",
-    // roles: ['user']
   }, {
-    name: "guest",
-    age: 20,
     email: "test.user1@gmail.com",
     password: "password",
-    // roles: ['admin'],
   }
 ];
 
-const createUser = {
+/* const createUser = {
   name: "user4",
   age: 28,
   email: "test.user4@gmail"
-}
+} */
 
-beforeEach(async () => {
-  await User.deleteMany({});
-  console.log("> Users deleted in test");
-    
-  for (let user of initialUsers) {
-    const newUser = new User(user);
-    await newUser.save();
-  }
-
-  const tokenGuest = await api
-    .post('/api/auth/signin')
-    .send({
-      email: initialUsers[0].email,
-      password: initialUsers[0].password
-    })
-    .expect(200)
-    .expect('Content-Type', /application\/json/);
-  
-  const tokenUser = await api
-    .post('/api/auth/signin')
-    .send({
-      email: initialUsers[1].email,
-      password: initialUsers[1].password
-    })
-    .expect(200)
-    .expect('Content-Type', /application\/json/);
-
-  const tokenAdmin = await api
-    .post('/api/auth/signin')
-    .send({
-      email: initialUsers[2].email,
-      password: initialUsers[2].password
-    })
-    .expect(200)
-    .expect('Content-Type', /application\/json/);
-
-  return {
-    tokenGuest,
-    tokenUser,
-    tokenAdmin
-  }
-});
-
-afterAll( async () => {
-  try {
-    await mongoose.connection.close();
-    server.close();
-  } catch (err) {
-    console.log(err)
-  }
-})
 
 describe('users CRUD', () => {
+  let tokenAdmin;
+
+  beforeAll(async () => {
+    const userRole = await Role.findOne({name: 'user'});
+    const guestRole = await Role.findOne({name: 'guest'});
+  
+    await User.deleteMany({
+      $or: [
+        {roles: {$in: [userRole._id]}},
+        {roles: {$in: [guestRole._id]}},
+      ]
+    });
+    console.log("> Users deleted in test beforeAll");
+
+    tokenAdmin = await api
+      .post('/api/auth/signin')
+      .send({
+        email: 'admin@test.com',
+        password: 'password'
+      })
+      .expect(200)
+      .expect('Content-Type', /application\/json/);
+  
+    console.log(tokenAdmin)
+    console.log(tokenAdmin.body.token)
+    
+    return tokenAdmin;
+  });
+
+  beforeEach(async () => {
+    const userRole = await Role.findOne({name: 'user'});
+    const guestRole = await Role.findOne({name: 'guest'});
+  
+    await User.deleteMany({
+      // delete all users and guests
+      $or: [
+        {roles: {$in: [userRole._id]}},
+        {roles: {$in: [guestRole._id]}},
+      ]
+    });
+    console.log("> Users deleted in test beforeEach");
+
+    // register initialUsers
+    initialUsers.forEach(async (user) => {
+      await api
+        .post('/api/auth/signup')
+        .send(user)
+        .set('x-access-token', tokenAdmin.body.token)
+        .expect(200)
+        .expect('Content-Type', /application\/json/);
+    });
+  });
+  
+  afterAll( async () => {
+    try {
+      await mongoose.connection.close();
+      server.close();
+    } catch (err) {
+      console.log(err)
+    }
+  })
+
   describe('GET /users', () => {
     test.only('should return all users', async () => {
       const response = await api
         .get('/users')
-        .send({
+        /* .send({
           email: 'test.user3@gmail.com', 
           password: 'password'
-        })
+        }) */
         .set('x-access-token', tokenAdmin.body.token)
         .expect(200)
         .expect('Content-Type', /application\/json/);
 
-      expect(response.body).toHaveLength(initialUsers.length);
+      expect(response.body).toHaveLength(initialUsers.length + 1);
     });
 
-    test('should return a user', async () => {
+    /* test('should return a user', async () => {
       const response = await api
         .get('/users')
         // .auth('test.user1@gmail', 'password');
@@ -111,10 +111,10 @@ describe('users CRUD', () => {
 
       const userGet = await api.get(`/users/${userId}`);
       expect(userGet.body.name).toBe(user.name);
-    }); 
+    });  */
   });
 
-  describe('POST /users', () => {
+  /* describe('POST /users', () => {
     test('should create a new user', async () => {
       await api
         .post('/users')
@@ -173,5 +173,5 @@ describe('users CRUD', () => {
       const getAll = await api.get('/users');
       expect(getAll.body.length).toBe(initialUsers.length - 1);
     });
-  });
+  }); */
 })

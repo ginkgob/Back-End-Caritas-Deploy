@@ -9,11 +9,15 @@ export const createRoles = async () => {
 
     if(count > 0) return;
 
-    await Promise.all([
+    await new Role({ name: "admin" }).save();
+    await new Role({ name: "user" }).save();
+    await new Role({ name: "guest" }).save();
+
+    /* await Promise.all([
       new Role({name: 'admin'}).save(),
       new Role({name: 'user'}).save(),
       new Role({name: 'guest'}).save(),
-    ])
+    ]) */
 
   } catch (error) {
     console.error(error);
@@ -25,19 +29,30 @@ export const createUsers = async () => {
     let count = await User.estimatedDocumentCount();
     
     if (process.env.NODE_ENV == 'test'/*  || process.env.NODE_ENV == 'development' */) {
-      await User.deleteMany({});
+      // search id of admin role
+      // const adminRole = await Role.findOne({name: 'admin'});
+      const userRole = await Role.findOne({name: 'user'});
+      const guestRole = await Role.findOne({name: 'guest'});
+
+      await User.deleteMany({
+        // delete all users and guests
+        $or: [
+          {roles: {$in: [userRole._id]}},
+          {roles: {$in: [guestRole._id]}},
+        ]
+      });
       console.log('Users deleted in initialSetup');
       count = await User.estimatedDocumentCount();
       return count;
     };
     if (count > 0) return;
 
-    const admin = new User({
+    /* const admin = new User({
       name: 'Admin',
       email: 'admin@admin.com',
       password: 'password',
       roles: [await Role.findOne({name: 'admin'})._id]
-    });
+    }); */
     
     const users = [
       {
@@ -62,7 +77,7 @@ export const createUsers = async () => {
       }
     ];
 
-    await newUser(admin).save();
+    // await newUser(admin).save();
     
     for (let user of users) {
       const newUser = new User(user);
