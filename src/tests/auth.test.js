@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 import supertest from "supertest";
 import app from "../app";
 import server from "../index";
-// import User from "../models/User";
-// import Role from "../models/Role";
+import User from "../models/User";
+import Role from "../models/Role";
 
 const api = supertest(app);
 
@@ -23,7 +23,7 @@ describe('auth verification', () => {
     password: "password"
   }
 
-  /* beforeEach(async () => {
+  beforeAll(async () => {
     const userRole = await Role.findOne({name: 'user'});
     const guestRole = await Role.findOne({name: 'guest'});
   
@@ -34,7 +34,7 @@ describe('auth verification', () => {
         {roles: {$in: [guestRole._id]}},
       ]
     });
-  }); */
+  });
   
   afterAll( async () => {
     try {

@@ -78,6 +78,8 @@ export const signIn = async (req, res) => {
         res.status(200).json({ idUser, roles, token });
     } catch (error) {
         console.log(error);
+    } finally {
+        res.end();
     }
 };
 
