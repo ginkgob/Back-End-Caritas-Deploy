@@ -27,15 +27,24 @@ export const signUp = async (req, res)=> {
         newUser.roles = [role._id];
     }
 
-    const savedUser = await newUser.save();
+    try {
+        await newUser.save();
+        res.status(200).json({ message: 'Usuario creado correctamente!' });
+    } catch (error) {
+        res.status(500).json({ message: error });
+    } finally {
+        res.end();
+    }
+    // const savedUser = await newUser.save();
 
-    console.log(savedUser);
+    // console.log(savedUser);
 
-    const token = jwt.sign({id: savedUser._id}, config.SECRET, {
+    /* const token = jwt.sign({id: savedUser._id}, config.SECRET, {
         expiresIn: 86400 //24 horas
     });
 
-    res.status(200).json({token});
+    res.status(200).json({token}); */
+    // res.status(200).json({message: 'Usuario creado correctamente!'});
 }
 
 
@@ -45,7 +54,7 @@ export const signIn = async (req, res) => {
         // Request body email can be an email or username
         const userFound = await User.findOne({ email: req.body.email }).populate("roles");
 
-        if (!userFound) return res.status(401).json({ message: "El usuario o la contraseña no son correctas" });
+        if (!userFound) return res.status(401).json({ message: "El usuario /* o la contraseña no son correctas */" });
 
         const matchPassword = await User.comparePassword(
             req.body.password,
@@ -66,7 +75,7 @@ export const signIn = async (req, res) => {
         res.cookie('idUser', idUser, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 });
         res.cookie('roles', roles, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 });
 
-        res.json({ idUser, roles, token });
+        res.status(200).json({ idUser, roles, token });
     } catch (error) {
         console.log(error);
     }

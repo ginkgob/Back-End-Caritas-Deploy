@@ -7,16 +7,6 @@ import Role from "../models/Role";
 
 const api = supertest(app);
 
-const initialUsers = [
-  {
-    email: "test.user2@gmail.com",
-    password: "password",
-  }, {
-    email: "test.user1@gmail.com",
-    password: "password",
-  }
-];
-
 /* const createUser = {
   name: "user4",
   age: 28,
@@ -26,6 +16,18 @@ const initialUsers = [
 
 describe('users CRUD', () => {
   let tokenAdmin;
+  /* let tokenUser;
+  let tokenGuest; */
+
+  const initialUsers = [
+    {
+      email: "test.user@gmail.com",
+      password: "password",
+    }, {
+      email: "test.guest@gmail.com",
+      password: "password",
+    }
+  ];
 
   beforeAll(async () => {
     const userRole = await Role.findOne({name: 'user'});
@@ -37,7 +39,7 @@ describe('users CRUD', () => {
         {roles: {$in: [guestRole._id]}},
       ]
     });
-    console.log("> Users deleted in test beforeAll");
+    // console.log("> Users deleted in test beforeAll");
 
     tokenAdmin = await api
       .post('/api/auth/signin')
@@ -48,8 +50,8 @@ describe('users CRUD', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/);
   
-    console.log(tokenAdmin)
-    console.log(tokenAdmin.body.token)
+    // console.log(tokenAdmin)
+    // console.log(tokenAdmin.body.token)
     
     return tokenAdmin;
   });
@@ -65,7 +67,7 @@ describe('users CRUD', () => {
         {roles: {$in: [guestRole._id]}},
       ]
     });
-    console.log("> Users deleted in test beforeEach");
+    // console.log("> Users deleted in test beforeEach");
 
     // register initialUsers
     initialUsers.forEach(async (user) => {
@@ -76,6 +78,57 @@ describe('users CRUD', () => {
         .expect(200)
         .expect('Content-Type', /application\/json/);
     });
+
+    // get user and update roles to user
+    // const userUpdateRole = await User.findOne({email: initialUsers[0].email});
+    // userUpdateRole.roles = [await Role.findOne({name: 'user'}).id];
+    // await userUpdateRole.save();
+    // console.log({userUpdateRole});
+
+    // await api
+    //   .put(`/users/${userUpdateRole._id}`)
+    //   .send({
+    //     roles: [await Role.findOne({name: 'user'})]
+    //   })
+    //   .set('x-access-token', tokenAdmin.body.token)
+    //   .expect(200)
+    //   .expect('Content-Type', /application\/json/);
+
+
+
+    // get token for user
+    /* try {
+      tokenUser = await api
+        .post('/api/auth/signin')
+        .send({
+          email: initialUsers[0].email,
+          password: initialUsers[0].password
+        })
+        .expect(200)
+        .expect('Content-Type', /application\/json/);
+      // console.log(tokenUser)
+      console.log(tokenUser.body.token)
+    } catch (error) {
+      console.log(error)
+      // console.log(tokenUser.body.message)
+    } */
+
+    // get token for guest
+    /* tokenGuest = await api
+      .post('/api/auth/signin')
+      .send({
+        email: initialUsers[1].email,
+        password: initialUsers[1].password
+      })
+      .expect(200)
+      .expect('Content-Type', /application\/json/); */
+    // console.log(tokenGuest)
+    // console.log(tokenGuest.body.token)
+
+    /* return {
+      tokenUser,
+      tokenGuest
+    } */
   });
   
   afterAll( async () => {
