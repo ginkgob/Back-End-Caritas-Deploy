@@ -5,9 +5,9 @@ import { authJwt } from '../middlewares/indexMiddleware'
 
 
 router.get('/', [authJwt.verifyToken, authJwt.isAdmin], usersController.getUsers);
-router.get('/:id', [authJwt.verifyToken, /* (authJwt.isAdmin || ) */], usersController.getUser);
-router.put('/:id', [authJwt.verifyToken], usersController.updateUser);
-router.delete('/:id', [authJwt.verifyToken, authJwt.isAdmin], usersController.deleteUser);
+router.get('/:id', [authJwt.verifyToken, authJwt.isSameUserOrAdmin], usersController.getUser);
+router.put('/:id', [authJwt.verifyToken, authJwt.isSameUserOrAdmin], usersController.updateUser);
+router.delete('/:id', [authJwt.verifyToken, authJwt.isSameUserOrAdmin], usersController.deleteUser);
 router.get('/:id/roles', usersController.getUserRoles);
 
 

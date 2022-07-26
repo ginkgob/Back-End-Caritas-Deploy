@@ -76,13 +76,6 @@ describe('users CRUD', () => {
       .set('x-access-token', tokenAdmin.body.token);
 
     const getUser = getAllUsers.body[1];
-
-    await api
-      .put(`/users/${getUser._id}`)
-      .send({
-        roles: [await Role.find({name: 'user'})]
-      })
-      .set('x-access-token', tokenAdmin.body.token);
     
     try {
       tokenUser = await api
@@ -97,6 +90,13 @@ describe('users CRUD', () => {
     } catch (error) {
       console.log(error)
     }
+
+    await api
+      .put(`/users/${getUser._id}`)
+      .send({
+        roles: [await Role.find({name: 'user'})]
+      })
+      .set('x-access-token', tokenUser.body.token);
 
     // get token for guest
     /* tokenGuest = await api
