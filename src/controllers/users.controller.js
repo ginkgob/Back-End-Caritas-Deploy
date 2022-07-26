@@ -1,19 +1,8 @@
 import User from '../models/User';
-// import express from 'express';
-
-// const userController = express();
-
-export const createUser = async (req, res) => {
-    const { name, surname, age, sex, nationality, email, password } = req.body;
-    const newUser = new User({ name, surname, age, sex, nationality, email, password });
-    await newUser.save();
-    res.json({ message: 'Usuario creado correctamente!' });
-}
 
 export const getUsers = async (req, res) => {
     const users = await User.find();
     res.json(users);
-    //res.json({ message: 'Get all users' });
 }
 
 export const getUser = async (req, res) => {
@@ -23,7 +12,6 @@ export const getUser = async (req, res) => {
 
 export const getUserRoles = async (req, res) => {
     const user = await User.findById(req.params.id).populate("roles");
-    // return object with roles
     res.json({ roles: user.roles });
 }
 
