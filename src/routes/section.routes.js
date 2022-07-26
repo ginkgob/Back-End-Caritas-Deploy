@@ -7,8 +7,8 @@ import {authJwt} from '../middlewares/indexMiddleware';
 router.post('/', [authJwt.verifyToken, authJwt.isAdmin], sectionsController.createSection);
 router.get('/', sectionsController.getSections);
 router.get('/:id', sectionsController.getSectionById);
-router.put('/:id', sectionsController.updateSectionById);
-router.delete('/:id', sectionsController.deleteSection);
+router.put('/:id', [authJwt.verifyToken, authJwt.isAdmin], sectionsController.updateSectionById);
+router.delete('/:id', [authJwt.verifyToken, authJwt.isAdmin], sectionsController.deleteSection);
 
 export default router;
 
