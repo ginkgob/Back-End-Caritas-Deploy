@@ -10,7 +10,7 @@ const api = supertest(app);
 /* const createUser = {
   name: "user4",
   age: 28,
-  email: "test.user4@gmail"
+  email: "test.user.update@gmail"
 } */
 
 
@@ -28,6 +28,13 @@ describe('users CRUD', () => {
       password: "password",
     }
   ];
+
+  const updateUser = {
+    name: "user",
+    surname: "update",
+    age: 28,
+    email: "update.user@gmail.com"
+  }
 
   beforeAll(async () => {
     const userRole = await Role.findOne({name: 'user'});
@@ -172,7 +179,6 @@ describe('users CRUD', () => {
     test('should create a new user', async () => {
       await api
         .post('/users')
-        // .auth('test.user1@gmail', 'password')
         .send(createUser)
         .expect(200)
         .expect('Content-Type', /application\/json/);
@@ -180,37 +186,30 @@ describe('users CRUD', () => {
       const getAll = await api.get('/users');
       expect(getAll.body.length).toBe(initialUsers.length + 1);
     });
-  });
+  }); */
 
   describe('PUT /users/:id', () => {
     test('should update a user', async () => {
-      const response = await api
+      const getAllUsers = await api
         .get('/users')
-        // .auth('test.user1@gmail', 'password');
-      const user = response.body[0];
-      // const userId = user._id;
-      console.log(user)
+        .set('x-access-token', tokenAdmin.body.token);
 
-      const newData = {
-        name: 'new name',
-        age: 30,
-      }
-      
-      const userUpdate = await api
-        .put(`/users/${userId}`)
-        // .auth('test.user1@gmail', 'password')
-        .send(newData)
+      const getUser = getAllUsers.body[1];
+
+      const response = await api
+        .put(`/users/${getUser._id}`)
+        .send(updateUser)
+        .set('x-access-token', tokenAdmin.body.token)
         .expect(200)
         .expect('Content-Type', /application\/json/);
       
-      expect(userUpdate.body.message).toBe('User updated successfully');
+      expect(response.body.message).toBe('El usuario ha sido actualizado');
       
-      const getAll = await api.get('/users');
-      expect(getAll.body.length).toBe(initialUsers.length);
+      expect(getAllUsers.body.length).toBe(initialUsers.length + 1);
     });
   });
 
-  describe('DELETE /users/:id', () => {
+  /* describe('DELETE /users/:id', () => {
     test('should delete a user', async () => {
       const response = await api.get('/users');
       const user = response.body[0];
