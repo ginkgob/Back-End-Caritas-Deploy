@@ -152,20 +152,7 @@ describe('users CRUD', () => {
       expect(response.body).toMatchObject(getUser);
     }); 
   });
-
-  /* describe('POST /users', () => {
-    test('should create a new user', async () => {
-      await api
-        .post('/users')
-        .send(createUser)
-        .expect(200)
-        .expect('Content-Type', /application\/json/);
-        
-      const getAll = await api.get('/users');
-      expect(getAll.body.length).toBe(initialUsers.length + 1);
-    });
-  }); */
-
+  
   describe('PUT /users/:id', () => {
     test('should update a user (role admin)', async () => {
       const getAllUsers = await api
@@ -233,22 +220,27 @@ describe('users CRUD', () => {
     })
   });
 
-  /* describe('DELETE /users/:id', () => {
-    test('should delete a user', async () => {
-      const response = await api.get('/users');
-      const user = response.body[0];
-      const userId = user._id;
+  describe('DELETE /users/:id', () => {
+    test('admin may delete a user', async () => {
+      const getAllUsers = await api
+        .get('/users')
+        .set('x-access-token', tokenAdmin.body.token);
+
+      const getUser = getAllUsers.body[2];
+      const userId = getUser._id;
 
       const userDelete = await api
         .delete(`/users/${userId}`)
-        // .auth('test.user1@gmail', 'password')
+        .set('x-access-token', tokenAdmin.body.token)
         .expect(200)
         .expect('Content-Type', /application\/json/);
       
-      expect(userDelete.body.message).toBe('User deleted successfully');
+      expect(userDelete.body.message).toBe('El usuario se ha eliminado correctamente');
       
-      const getAll = await api.get('/users');
-      expect(getAll.body.length).toBe(initialUsers.length - 1);
+      const getAllAfterDelete = await api
+        .get('/users')
+        .set('x-access-token', tokenAdmin.body.token);
+      expect(getAllAfterDelete.body.length).toBe(initialUsers.length);
     });
-  }); */
+  });
 })
