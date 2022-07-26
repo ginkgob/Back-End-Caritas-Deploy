@@ -5,16 +5,11 @@ import Role from '../models/Role'
 // import { createUser } from './users.controller'
 
 export const signUp = async (req, res)=> {
-    const { name, surname, age, sex, nationality, email, password, roles } = req.body;
+    const { email, password, roles } = req.body;
 
     //const userFound = User.find({email});
 
     const newUser = new User({
-        name,
-        surname,
-        age,
-        sex,
-        nationality,
         email,
         password: await User.encryptPassword(password)
     })
@@ -35,16 +30,6 @@ export const signUp = async (req, res)=> {
     } finally {
         res.end();
     }
-    // const savedUser = await newUser.save();
-
-    // console.log(savedUser);
-
-    /* const token = jwt.sign({id: savedUser._id}, config.SECRET, {
-        expiresIn: 86400 //24 horas
-    });
-
-    res.status(200).json({token}); */
-    // res.status(200).json({message: 'Usuario creado correctamente!'});
 }
 
 
