@@ -186,7 +186,7 @@ describe('users CRUD', () => {
       expect(getAllUsers.body.length).toBe(initialUsers.length + 1);
     });
 
-    test('should update a user (role user)', async () => {
+    test('should update a user (is same user)', async () => {
       const getAllUsers = await api
         .get('/users')
         .set('x-access-token', tokenAdmin.body.token);
@@ -208,6 +208,29 @@ describe('users CRUD', () => {
       
       expect(getAllUsers.body.length).toBe(initialUsers.length + 1);
     });
+
+    test('should not update a user (is not same user and not admin)', async () => {
+      const getAllUsers = await api
+        .get('/users')
+        .set('x-access-token', tokenAdmin.body.token);
+
+      const getUser = getAllUsers.body[2];
+
+      const response = await api
+        .put(`/users/${getUser._id}`)
+        .send({
+          name: 'update',
+          surname: 'user',
+          roles: [await Role.find({name: 'user'})]
+        })
+        .set('x-access-token', tokenUser.body.token)
+        .expect(401)
+        .expect('Content-Type', /application\/json/);
+      
+      expect(response.body.message).toBe('No dispones de la autorización adecuada');
+      
+      expect(getAllUsers.body.length).toBe(initialUsers.length + 1);
+    })
   });
 
   /* describe('DELETE /users/:id', () => {
