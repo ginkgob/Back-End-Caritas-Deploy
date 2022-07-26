@@ -1,3 +1,4 @@
+import Role from '../models/Role';
 import User from '../models/User';
 
 export const getUsers = async (req, res) => {
@@ -17,7 +18,10 @@ export const getUserRoles = async (req, res) => {
 
 export const updateUser = async (req, res) => {
     const { name, surname, age, address, city, province, zip, phone, sex, nationality, email, password } = req.body;
-    await User.findByIdAndUpdate(req.params.id, { name, surname, age, address, city, province, zip, phone, sex, nationality, email, password });
+    
+    const roles = await Role.findOne({name: "user"});
+
+    await User.findByIdAndUpdate(req.params.id, { name, surname, age, address, city, province, zip, phone, sex, nationality, email, password, roles });
     res.json({ message: 'El usuario ha sido actualizado' });
 }
 
