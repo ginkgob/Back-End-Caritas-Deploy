@@ -141,13 +141,9 @@ describe('users CRUD', () => {
   })
 
   describe('GET /users', () => {
-    test.only('should return all users', async () => {
+    test('should return all users (role admin)', async () => {
       const response = await api
         .get('/users')
-        /* .send({
-          email: 'test.user3@gmail.com', 
-          password: 'password'
-        }) */
         .set('x-access-token', tokenAdmin.body.token)
         .expect(200)
         .expect('Content-Type', /application\/json/);
@@ -155,16 +151,21 @@ describe('users CRUD', () => {
       expect(response.body).toHaveLength(initialUsers.length + 1);
     });
 
-    /* test('should return a user', async () => {
-      const response = await api
+    test('should return a user (role admin)', async () => {
+      const getAllUsers = await api
         .get('/users')
-        // .auth('test.user1@gmail', 'password');
-      const user = response.body[0];
-      const userId = user._id;
+        .set('x-access-token', tokenAdmin.body.token);
+      
+      const getUser = getAllUsers.body[1];
+      
+      const response = await api
+        .get(`/users/${getUser._id}`)
+        .set('x-access-token', tokenAdmin.body.token)
+        .expect(200)
+        .expect('Content-Type', /application\/json/);
 
-      const userGet = await api.get(`/users/${userId}`);
-      expect(userGet.body.name).toBe(user.name);
-    });  */
+      expect(response.body).toMatchObject(getUser);
+    }); 
   });
 
   /* describe('POST /users', () => {
